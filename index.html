@@ -136,6 +136,7 @@ section{padding:96px 0}
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:36px}
 h2{margin:12px 0 0;color:var(--forest);font-size:clamp(32px,4vw,48px);line-height:1.05;letter-spacing:-.055em}
 .intro{max-width:390px;margin:0;color:var(--muted);font-size:14px}
+.head-aside{display:grid;gap:14px;justify-items:end;text-align:right}
 .about-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:58px;align-items:center}
 .about-image{position:relative;height:410px;overflow:hidden;border-radius:var(--radius);background:var(--sand);box-shadow:var(--shadow)}
 .about-image img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
@@ -250,6 +251,7 @@ footer .mark{background:var(--grad-orange);color:#fff}
   .stat strong{font-size:23px}
   section{padding:65px 0}
   .section-head{align-items:flex-start;flex-direction:column;gap:15px}
+  .head-aside{justify-items:start;text-align:left}
   .about-image{height:320px}
   .about-image--small{height:200px}
   .trip-grid,.review-grid,.offer-grid{grid-template-columns:1fr}
@@ -270,6 +272,7 @@ footer .mark{background:var(--grad-orange);color:#fff}
     <nav class="links" id="site-nav" aria-label="Основная навигация">
       <a href="#about">О клубе</a>
       <a href="#trips">Маршруты</a>
+      <a href="trips.html">Все маршруты</a>
       <a href="#offers">Почему мы</a>
       <a href="#reviews">Отзывы</a>
       <a href="#contacts">Контакты</a>
@@ -339,7 +342,10 @@ footer .mark{background:var(--grad-orange);color:#fff}
     <div class="container">
       <div class="section-head reveal">
         <div><span class="eyebrow">Выбери направление</span><h2>Маршруты для перезагрузки</h2></div>
-        <p class="intro">Три идеи для первой поездки. Направления и цены — демонстрационные примеры для учебного макета.</p>
+        <div class="head-aside">
+          <p class="intro">Три идеи для первой поездки. Направления и цены — демонстрационные примеры для учебного макета.</p>
+          <a class="btn secondary" href="trips.html">Все маршруты →</a>
+        </div>
       </div>
       <div class="trip-grid">
         <article class="trip reveal">
@@ -512,7 +518,10 @@ footer .mark{background:var(--grad-orange);color:#fff}
   /* --- Подсветка активного пункта меню (aria-current) --- */
   const navLinks = Array.from(document.querySelectorAll('.links a'));
   const sections = navLinks
-    .map(a => document.querySelector(a.getAttribute('href')))
+    .map(a => {
+      const href = a.getAttribute('href') || '';
+      return href.startsWith('#') ? document.querySelector(href) : null;
+    })
     .filter(Boolean);
   if ('IntersectionObserver' in window && sections.length) {
     const spy = new IntersectionObserver((entries) => {
